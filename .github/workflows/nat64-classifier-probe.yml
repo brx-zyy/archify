@@ -1,0 +1,23 @@
+name: NAT64 classifier security probe
+
+on:
+  push:
+    branches:
+      - security/nat64-classifier-probe
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  classifier-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - name: Probe custom-prefix NAT64 address classification
+        run: node --test test/brand-nat64-classifier-probe.test.mjs
